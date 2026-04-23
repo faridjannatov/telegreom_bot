@@ -1,11 +1,21 @@
 import asyncio
+import os
+from dotenv import load_dotenv
 from telegrambot import TechNewsBot
 
 async def send_first_news():
     """Send the first batch of news to the channel"""
-    TELEGRAM_BOT_TOKEN = "8233708906:AAFTzVAIbSHWqED8KwK5sDqIlp-1cnOvfCM"
-    NEWS_API_KEY = "68a8f3d2cc6e4930bf0e27b3ec581ccc"
-    CHANNEL_ID = "@aygunsdailytechnews"
+    
+    # Загружаем переменные из .env файла
+    load_dotenv()
+
+    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+    NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+    CHANNEL_ID = os.getenv("CHANNEL_ID")
+
+    if not all([TELEGRAM_BOT_TOKEN, NEWS_API_KEY, CHANNEL_ID]):
+        print("Ошибка: Отсутствуют необходимые переменные окружения. Проверьте файл .env!")
+        return
 
     # Create bot instance
     bot = TechNewsBot(
