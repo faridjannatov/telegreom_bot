@@ -328,14 +328,20 @@ Need help? Contact the bot administrator.
 
 # Example usage and configuration
 if __name__ == "__main__":
-    # Configuration - Replace these with your actual values
-    TELEGRAM_BOT_TOKEN = (
-        "8233708906:AAFTzVAIbSHWqED8KwK5sDqIlp-1cnOvfCM"  # Get from @BotFather
-    )
-    NEWS_API_KEY = "68a8f3d2cc6e4930bf0e27b3ec581ccc"  # Get from https://newsapi.org/
-    CHANNEL_ID = "@aygunsdailytechnews"  # Your channel username or ID
+    # Сделал хранение уязвимых данных в .env
+    # Загружаем переменные из .env файла
+    load_dotenv()
 
-    # Create and run the bot
+    # Получаем данные из переменных окружения
+    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+    NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+    CHANNEL_ID = os.getenv("CHANNEL_ID")
+
+    # Проверка, что все ключи успешно загружены
+    if not all([TELEGRAM_BOT_TOKEN, NEWS_API_KEY, CHANNEL_ID]):
+        logger.error("Отсутствуют необходимые переменные окружения. Проверьте файл .env!")
+        exit(1)
+
     tech_news_bot = TechNewsBot(
         telegram_token=TELEGRAM_BOT_TOKEN,
         news_api_key=NEWS_API_KEY,
